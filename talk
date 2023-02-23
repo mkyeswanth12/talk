@@ -1,0 +1,92 @@
+#!/bin/bash
+source /etc/environment
+
+# Set the database details
+DB_NAME="chat"
+DB_TABLE="messages"
+DB_USERNAME="root"
+
+# Initialize variables
+prev_output=""
+MESSAGE=""
+SENDER=$USER
+key="pass:$CHAT_ENCRYPTION_KEY"
+
+# Define the functions
+function clear_chat_history() {
+  # Clear the chat history from the database
+  sudo mysql -e "TRUNCATE TABLE $DB_NAME.$DB_TABLE;"
+  echo "Chat history cleared."
+}
+
+function display_help() {
+  # Display help message
+  echo "Available commands:"
+  echo "/clear - clears the chat history"
+  echo "/help - displays this help message"
+  echo "/exit - exits the chat application"
+}
+
+
+# Display the welcome message and available commands
+echo "Welcome to the Talk application. Type '/help' for available commands."
+
+#display_help  #Remove # if you wanna display help on every run
+
+while true; do
+
+  # Execute the SQL query to select the "sender" and "message" columns from the "messages" table
+  query="SELECT sender, message FROM chat.messages"
+  # Use the MySQL command-line client to execute the query and capture the output
+  output2=$(sudo mysql -uroot -e "$query")
+  # Use a for loop to iterate over the output and print each line
+  output=$(
+    i=1
+    while read -r sender && read -r message; do
+      if [[ $i -eq 1 ]]; then
+        ((i++))
+        continue
+      fi
+      decrypted_message=$(echo $message | openssl enc -d -aes-256-cbc -pbkdf2 -base64 -pass $key)
+      echo -e "$sender:-> $decrypted_message"
+      ((i++))
+    done < <(echo "$output2" | awk 'NR>1 {print $1; print $2}')
+  )
+
+  # Print the output if it has changed
+  if [ "$output" != "$prev_output" ]; then
+    clear
+    echo "$output"
+    prev_output="$output"
+  fi
+
+  # Read input from the user
+  read -p "$USER:- " MESSAGE
+
+  # Skip processing if the message is empty
+  if [ -z "$MESSAGE" ]; then
+    continue
+  fi
+
+  # Process the input
+  case "$MESSAGE" in
+    "/clear")
+      clear_chat_history
+      ;;
+    "/help")
+      display_help
+      ;;
+    "/exit")
+      exit 0
+      ;;
+    *)
+      # Encrypt the user input
+      encrypted=$(echo "$MESSAGE" | openssl enc -aes-256-cbc -pbkdf2 -base64 -pass $key -A)
+
+      # Insert the encrypted message into the database
+      sudo mysql -s -N -e "INSERT INTO chat.messages (sender, message) VALUES ('$SENDER', '$encrypted');"
+      ;;
+  esac
+
+  sleep 1
+done

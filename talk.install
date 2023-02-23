@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Prompt the user to enter the names of the new users
+read -p "Enter the name of the first user: " usr1
+read -p "Enter the name of the second user: " usr2
+
+# Create the new users and assign them sudo privileges
+sudo adduser "$usr1"
+sudo adduser "$usr1" sudo
+sudo adduser "$usr2"
+sudo adduser "$usr2" sudo
+
+# Update the package index and install MySQL server
+sudo apt-get update
+sudo apt-get install mysql-server -y
+
+# Start the MySQL service and enable it to start on boot
+sudo systemctl enable --now mysql
+
+# Create the chat database
+sudo mysql -s -N -e "CREATE DATABASE chat"
+
+# Create the messages table
+sudo mysql -s -N -e "CREATE TABLE chat.messages (
+  SENDER VARCHAR(2048) NOT NULL,
+  MESSAGE VARCHAR(2048) NOT NULL)"
+
+# Generate an encryption key and store it in an environment variable
+sudo sh -c 'echo "CHAT_ENCRYPTION_KEY=$(openssl rand -base64 32)" >> /etc/environment'
+
+# Create the banner text
+sudo echo "**************************************************************
+
+Welcome to Talk!
+
+To access the Talk app, please execute the command: talk
+For starting the application, type /help for a list of available commands.
+
+This application is designed for maximum privacy and security.
+All conversations are end-to-end encrypted and cannot be accessed by anyone.
+
+Thank you for using Talk!
+
+**************************************************************" > /etc/banner.txt
+
+# Backup and modify the message of the day files
+sudo mv /etc/update-motd.d/* /etc/update-motd.d-backup/
+sudo touch /etc/update-motd.d/00-header
+sudo touch /etc/update-motd.d/10-help-text
+sudo touch /etc/update-motd.d/50-motd-news
+
+# Check if the database was created successfully
+if [ $? -eq 0 ]; then
+  echo "Data added successfully."
+else
+  echo "Error adding data."
+fi
