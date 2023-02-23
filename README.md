@@ -26,6 +26,8 @@ You can access the Talk app by executing the talk command in your terminal
 `talk`
 
 # Requirements
-Ubuntu Operating System
-MySQL Server
-Please make sure your system meets these requirements before running the installation script
+Git \
+Ubuntu Operating System \
+MySQL Server 
+
+Please make sure your system meets these requirements before running the installation script.
