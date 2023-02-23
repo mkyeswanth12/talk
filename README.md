@@ -1,6 +1,9 @@
 # Talk
 "Talk Script: Secure and Private Messaging for Everyone on Your System and Network"
 
+![Screenshot_2023-02-22_06-51-20](https://user-images.githubusercontent.com/47426782/221023387-53e04ca0-955b-4295-b029-cbedf8397e87.png)
+
+
 # Installation
 To install and set up the Talk app on your Ubuntu system, follow these steps:
 
