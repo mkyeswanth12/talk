@@ -1,8 +1,7 @@
 # Talk
-"Talk Script: Secure and Private Messaging for Everyone on Your System and Network"
+The Talk Chat Application is a command-line interface (CLI) tool for sending and receiving encrypted messages between two or more users on a local server.
 
 ![Screenshot_2023-02-22_06-51-20](https://user-images.githubusercontent.com/47426782/221023387-53e04ca0-955b-4295-b029-cbedf8397e87.png)
-
 
 # Installation
 To install and set up the Talk app on your Ubuntu system, follow these steps:
@@ -35,3 +34,19 @@ Ubuntu Operating System \
 MySQL Server 
 
 Please make sure your system meets these requirements before running the installation script.
+
+# Usage
+When the application starts, you will be prompted to enter your name.
+To send a message, type the message in the command prompt and press Enter.
+To clear the chat history, type /clear and press Enter.
+To view the available commands, type /help and press Enter.
+To exit the application, type /exit and press Enter.
+# Support
+If you have any questions or issues with the Talk Chat Application, please contact the author@ mkyes.mkyc1@gmail.com
+
+# Authors
+[MK Yeswanth](https://github.com/mkyeswanth12) - Github Profile
+
+# License
+This project is licensed under the Apache License - see the LICENSE.md file for details.
+
