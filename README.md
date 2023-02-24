@@ -24,7 +24,7 @@ You can access the Talk app by executing the talk command in your terminal
 
 `git clone https://github.com/mkyeswanth12/talk.git` \
 `cd talk` \
-`sudo chmod +x talk.install talk`
+`sudo chmod +x talk.install talk` \
 `sudo ./talk.install` \
 `sudo mv -f talk /usr/local/bin/` \
 `talk`
