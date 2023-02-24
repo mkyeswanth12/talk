@@ -49,6 +49,8 @@ sudo touch /etc/update-motd.d/00-header
 sudo touch /etc/update-motd.d/10-help-text
 sudo touch /etc/update-motd.d/50-motd-news
 
+sudo service ssh restart
+
 # Check if the database was created successfully
 if [ $? -eq 0 ]; then
   echo "Data added successfully."
