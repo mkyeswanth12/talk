@@ -29,7 +29,7 @@ sudo mysql -s -N -e "CREATE TABLE chat.messages (
 sudo sh -c 'echo "CHAT_ENCRYPTION_KEY=$(openssl rand -base64 32)" >> /etc/environment'
 
 # Create the banner text
-sudo 'echo "************************************************************** 
+echo "************************************************************** 
 Welcome to Talk!
 
 To access the Talk app, please execute the command: talk
@@ -40,9 +40,9 @@ All conversations are end-to-end encrypted and cannot be accessed by anyone.
 
 Thank you for using Talk!
 
-**************************************************************" | sudo tee /etc/banner.txt'
+**************************************************************" | sudo tee /etc/banner.txt
 
-sudo echo "Banner /etc/banner.txt" | sudo tee /etc/ssh/sshd_config
+echo "Banner /etc/banner.txt" | sudo tee -a /etc/ssh/sshd_config
 
 # Backup and modify the message of the day files
 sudo mkdir /etc/update-motd.d-backup/
