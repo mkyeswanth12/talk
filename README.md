@@ -12,7 +12,7 @@ Navigate to the cloned repository
 
 Run the installation script with superuser privileges.
 
-The first time you run the talk command, you will be prompted to enter the names of two users. Enter the names of the users and hit enter.
+The first time you run the installation script, you will be prompted to enter the names of two users. Enter the names of the users and hit enter.
 
 Wait for the script to complete the installation process. This may take a few minutes depending on your system's performance.
 
